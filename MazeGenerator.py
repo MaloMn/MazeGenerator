@@ -1,3 +1,7 @@
+import math
+import os
+import random
+
 #######################################################################
 ##################### Random Path Generator ###########################
 #######################################################################
@@ -6,7 +10,7 @@ def mazeGenerator(size, level):
     # We fill the grid with zeros
     tab = []
     for i in range(size*size):
-        tab[i] = 0
+        tab.append(0)
 
     # We then select the starting square
     # Start (st) is an index
@@ -30,11 +34,11 @@ def mazeGenerator(size, level):
         #           - If "ways" is empty, we have to stop there, and put that as the final cell
         #           of our incredible path
 
-        if (len(ways) > 0) {
+        if len(ways) > 0:
             # We randomly choose a cell from ways
             a = ways[randomInt(0, len(ways) - 1)]
             tab[a] = 1
-            #Ecrire(a)
+            #print(a)
 
         # At the end, path contains the path to go out
         path.push(a)
@@ -52,10 +56,10 @@ def mazeGenerator(size, level):
                     ways = surroundings(tab, size, path[i])
 
                     if len(ways) > 0:
-                    # We randomly choose a cell from ways
-                    a = ways[randomInt(0, len(ways) - 1)]
-                    tab[a] = 1
-                    Ecrire(a)
+                        # We randomly choose a cell from ways
+                        a = ways[randomInt(0, len(ways) - 1)]
+                        tab[a] = 1
+                        print(a)
 
                     if len(ways) > 0:
                         break
@@ -80,7 +84,7 @@ def mazeGenerator(size, level):
     print('Path = ' + path)
     # Now we add the item on the maze :
     # First the item 1 : the candle
-    place = Math.floor(gaussianRandom(len(path) * 0.25, len(path) * (1 - 0.25)))
+    place = math.floor(gaussianRandom(len(path) * 0.25, len(path) * (1 - 0.25)))
     tab[path[place]] = 4
     return tab
 
@@ -88,165 +92,141 @@ def mazeGenerator(size, level):
 ### Functions helping the generator ##
 #######################################
 
-function randomInt(a, b) {
-   c
-  if (a > 0) {
-    c = Math.floor(Math.random() * b) + a
-  } else {
-    c = Math.floor(Math.random() * (b + 1))
-  }
-  return c
-}
+def randomInt(a, b):
+    c = 0
+    if a > 0:
+        c = math.floor(random.random() * b) + a
+    else:
+        c = math.floor(random.random() * (b + 1))
 
-# Function checked
+    return c
 
-function randomStart(length) {
-  # indicates the line chosen or the column depending on lc
-   line = randomInt(1, length - 2)
-  # lc indicates the side
-   lc = randomInt(1, 4)
+def randomStart(length):
+    # indicates the line chosen or the column depending on lc
+    line = randomInt(1, length - 2)
+    # lc indicates the side
+    lc = randomInt(1, 4)
 
-  switch (lc) {
-  case 1:
-    # left side
-    indice = length * line
-    break
-  case 2:
-    # upper side
-    indice = line
-    break
-  case 3:
-    # right side
-    indice = length * line + length - 1
-    break
-  default:
-    # bottom side
-    indice = line + length * (length - 1)
-    break
-  }
-  return indice
-}
+    if lc == 1:
+        # left side
+        indice = length * line
+    elif lc == 2:
+        # upper side
+        indice = line
 
-# function checked
+    elif lc == 3:
+        # right side
+        indice = length * line + length - 1
 
-function removeItem(array1, item) {
-   array2 = []
-   a = 0
-  for ( i = 0 i < len(array1) i++) {
-    if (array1[i] != item) {
-      array2[a] = array1[i]
-      a++
-    }
-  }
-  #Ecrire(array2)
-  return array2
-}
+    else:
+        # bottom side
+        indice = line + length * (length - 1)
 
-function checkIfExists(tabl, condition, pos, bool) {
-  # condition la conditions d'existence  pos = position de la case a checker
-  # We check the surroundings of the cell around n
-  if (condition) { # We check that it exists
-    if (tabl[pos] != 0) {
-      bool = false
-    }
-  }
-  return bool
-}
+    return indice
 
-function surroundings(t, length, n) {
-  # We check all the surroundings of the given cell, and we return them in an array:
-  # 0 if we can't go there, and 1 if we can.
-  ######## STEP 1 ########
-  # First, we check the immediate surroundings (A (condititon) to B (zeros and ones))
-  # Then, the others (B to D)
-   A = [n - length, n + 1, n + length, n - 1]
-   B = [1, 1, 1, 1]
-   C = [n - length - 1, n - 2 * length, n - length + 1, n + 2, n + length + 1, n + 2 * length, n + length - 1, n - 2]
-   D = [1, 1, 1, 1, 1, 1, 1, 1]
+def removeItem(array1, item):
+    array2 = []
 
-  # Checking the immediate surroundings :
-  for ( i = 0 i < len(A) i++) {
-    if (t[A[i]] != undefined) {
-      if (t[A[i]] != 0) {
-        B[i] = 0
-      }
-    } else {
-      B[i] = 0
-    }
-  }
+    for i in range(len(array1)):
+        array2.append()
 
-  # Checking the other surroundings :
-  for (i = 0 i < len(C) i++) {
-    if (t[C[i]] != undefined) {
-      if (t[C[i]] != 0) {
-        D[i] = 0
-      }
-    } else {
-      D[i] = 1
-    }
-  }
+    for i in range(len(array1)):
+        if (array1[i] != item):
+            array2.append(array1[i])
 
-  # Then we delete the cases where the cells aren't actually next to the main one.
-   column = n % length
+    #print(array2)
+    return array2
 
-  if (column == 1) {
-    D[7] = 1
-  } else if (column == 0) {
-    B[3] = 0
-  } else if (column == length - 2) {
-    D[3] = 1
-  } else if (column == length - 1) {
-    B[1] = 0
-  }
+def checkIfExists(tabl, condition, pos, bool):
+    # condition la conditions d'existence  pos = position de la case a checker
+    # We check the surroundings of the cell around n
+    if condition: # We check that it exists
+        if tabl[pos] != 0:
+            bool = false
+    return bool
 
-  ######## STEP 2 ########
-  # We construct an array "possible" in which we sort out which cell we can go to
-  # according to what we have done before
-   possible = [n - length, n + 1, n + length, n - 1]
+def surroundings(t, length, n):
+    # We check all the surroundings of the given cell, and we return them in an array:
+    # 0 if we can't go there, and 1 if we can.
+    ######## STEP 1 ########
+    # First, we check the immediate surroundings (A (condititon) to B (zeros and ones))
+    # Then, the others (B to D)
+    A = [n - length, n + 1, n + length, n - 1]
+    B = [1, 1, 1, 1]
+    C = [n - length - 1, n - 2 * length, n - length + 1, n + 2, n + length + 1, n + 2 * length, n + length - 1, n - 2]
+    D = [1, 1, 1, 1, 1, 1, 1, 1]
 
-  if (B[0] == 1) {
-    if (D[0] == 0 || D[1] == 0 || D[2] == 0) {
-      possible = removeItem(possible, n - length)
-    }
-  } else {
-    possible = removeItem(possible, n - length)
-  }
+    # Checking the immediate surroundings :
+    for i in range(len(A)):
+        try:
+            if t[A[i]] != 0:
+                B[i] = 0
+        except IndexError:
+            B[i] = 0
 
-  if (B[1] == 1) {
-    if (D[2] == 0 || D[3] == 0 || D[4] == 0) {
-      possible = removeItem(possible, n + 1)
-    }
-  } else {
-    possible = removeItem(possible, n + 1)
-  }
+    # Checking the other surroundings :
+    for i in range(len(C)):
+        try:
+            if t[C[i]] != 0:
+                D[i] = 0
+        except IndexError:
+            D[i] = 1
 
-  if (B[2] == 1) {
-    if (D[4] == 0 || D[5] == 0 || D[6] == 0) {
-      possible = removeItem(possible, n + length)
-    }
-  } else {
-    possible = removeItem(possible, n + length)
-  }
+    # Then we delete the cases where the cells aren't actually next to the main one.
+    column = n % length
 
-  if (B[3] == 1) {
-    if (D[6] == 0 || D[7] == 0 || D[0] == 0) {
-      possible = removeItem(possible, n - 1)
-    }
-  } else {
-    possible = removeItem(possible, n - 1)
-  }
-  # "possible" now contains the ways to go
-  return possible
-}
+    if column == 1:
+        D[7] = 1
+    elif column == 0:
+        B[3] = 0
+    elif column == length - 2:
+        D[3] = 1
+    elif column == length - 1:
+        B[1] = 0
 
-function gaussianRandom(start, end) {
-  return Math.floor(start + gaussianRand() * (end - start + 1))
-}
+    ######## STEP 2 ########
+    # We construct an array "possible" in which we sort out which cell we can go to
+    # according to what we have done before
+    possible = [n - length, n + 1, n + length, n - 1]
 
-function gaussianRand() {
-   rand = 0
-  for ( i = 0 i < 6 i += 1) {
-    rand += Math.random()
-  }
-  return rand / 6
-}
+    if B[0] == 1:
+        if D[0] == 0 or D[1] == 0 or D[2] == 0:
+            possible = removeItem(possible, n - length)
+    else:
+        possible = removeItem(possible, n - length)
+
+    if B[1] == 1:
+        if D[2] == 0 or D[3] == 0 or D[4] == 0:
+            possible = removeItem(possible, n + 1)
+    else:
+        possible = removeItem(possible, n + 1)
+
+    if B[2] == 1:
+        if D[4] == 0 or D[5] == 0 or D[6] == 0:
+            possible = removeItem(possible, n + length)
+    else:
+        possible = removeItem(possible, n + length)
+
+    if B[3] == 1:
+        if D[6] == 0 or D[7] == 0 or D[0] == 0:
+            possible = removeItem(possible, n - 1)
+    else:
+        possible = removeItem(possible, n - 1)
+    # "possible" now contains the ways to go
+    return possible
+
+def gaussianRandom(start, end):
+    return math.floor(start + gaussianRand() * (end - start + 1))
+
+def gaussianRand():
+    rand = 0
+    for i in range(6):
+        rand += random.random()
+    return rand / 6
+
+
+maze = mazeGenerator(10,1)
+
+print(maze)
+
+os.system("pause")
