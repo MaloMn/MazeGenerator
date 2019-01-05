@@ -2,92 +2,87 @@
 ##################### Random Path Generator ###########################
 #######################################################################
 
-def mazeGenerator(size, level) {
-  # We fill the grid with zeros
-  tab = []
-  for i in range(size*size):
-    tab[i] = 0
+def mazeGenerator(size, level):
+    # We fill the grid with zeros
+    tab = []
+    for i in range(size*size):
+        tab[i] = 0
 
-  # We then select the starting square
-  # Start (st) is an index
-   st = randomStart(size)
+    # We then select the starting square
+    # Start (st) is an index
+    st = randomStart(size)
 
-  tab[st] = 2
+    tab[st] = 2
 
-  # Then we keep moving on randomly into the maze until we are stuck.
-/*
-         0
-      3 [ ] 1  This is how a cell is surrounded
-         2
-    */
-   a = st
-   ways = []
-  path = [a]
+    # Then we keep moving on randomly into the maze until we are stuck.
+    #    0
+    # 3 [ ] 1  This is how a cell is surrounded
+    #    2
+    a = st
+    ways = []
+    path = [a]
 
-  do {
-    # We check which ways are possible by eliminating impossible ways
-    ways = surroundings(tab, size, a)
+    while "As long as len(ways) > 0":
+        # We check which ways are possible by eliminating impossible ways
+        ways = surroundings(tab, size, a)
 
-/*  - If we only have one item or more in "ways", we choose one randomly
-            - If "ways" is empty, we have to stop there, and put that as the final cell
-            of our incredible path
-        */
-    if (Taille(ways) > 0) {
-      # We randomly choose a cell from ways
-      a = ways[randomInt(0, Taille(ways) - 1)]
-      tab[a] = 1
-      Ecrire(a)
-    }
-    # At the end, path contains the path to go out
-    path.push(a)
+        # - If we only have one item or more in "ways", we choose one randomly
+        #           - If "ways" is empty, we have to stop there, and put that as the final cell
+        #           of our incredible path
 
-  } while (Taille(ways) > 0)
-
-  tab[a] = 3
-
-  if (level == 1) {
-
-    for (i = 0 i < Taille(path) i++) {
-      if (randomInt(0, 1) == 0) {
-        do {
-          # We recreate some other paths without exits.
-          ways = surroundings(tab, size, path[i])
-          #Ecrire('Ways = ' + ways)
-          if (Taille(ways) > 0) {
+        if (len(ways) > 0) {
             # We randomly choose a cell from ways
-            a = ways[randomInt(0, Taille(ways) - 1)]
+            a = ways[randomInt(0, len(ways) - 1)]
             tab[a] = 1
-            Ecrire(a)
-          }
-        } while (Taille(ways) > 0)
-      }
-    }
-  } else if (level == 2) {
+            #Ecrire(a)
 
-    # We completely fill the grid with false ways
-    for (i = 0 i < Taille(path) i++) {
-      do {
-        # We recreate some other paths without exits.
-        ways = surroundings(tab, size, path[i])
-        #Ecrire('Ways = ' + ways)
-        if (Taille(ways) > 0) {
-          # We randomly choose a cell from ways
-          a = ways[randomInt(0, Taille(ways) - 1)]
-          tab[a] = 1
-          Ecrire(a)
-        }
+        # At the end, path contains the path to go out
+        path.push(a)
 
-      } while (Taille(ways) > 0)
-    }
-  }
-  Ecrire('Path = ' + path)
-  # Now we add the item on the maze :
-  # First the item 1 : the candle
-   place = Math.floor(gaussianRandom(Taille(path) * 0.25, Taille(path) * (1 - 0.25)))
-  tab[path[place]] = 4
-  return tab
-}
+        if len(ways) > 0:
+            break
 
+    tab[a] = 3
+
+    if level == 1:
+        for i in range(len(path)):
+            if randomInt(0, 1) == 0:
+                while "len(ways) > 0":
+                    # We recreate some other paths without exits.
+                    ways = surroundings(tab, size, path[i])
+
+                    if len(ways) > 0:
+                    # We randomly choose a cell from ways
+                    a = ways[randomInt(0, len(ways) - 1)]
+                    tab[a] = 1
+                    Ecrire(a)
+
+                    if len(ways) > 0:
+                        break
+
+    elif level == 2:
+        # We completely fill the grid with false ways
+        for i in range(len(path)):
+            while "len(ways) > 0":
+                # We recreate some other paths without exits.
+                ways = surroundings(tab, size, path[i])
+                #print('Ways = ' + ways)
+                if len(ways) > 0:
+                    # We randomly choose a cell from ways
+                    a = ways[randomInt(0, len(ways) - 1)]
+                    tab[a] = 1
+                    #print(a)
+
+                if len(ways) > 0:
+                    break
+
+
+    print('Path = ' + path)
+    # Now we add the item on the maze :
+    # First the item 1 : the candle
+    place = Math.floor(gaussianRandom(len(path) * 0.25, len(path) * (1 - 0.25)))
+    tab[path[place]] = 4
+    return tab
 
 #######################################
 ### Functions helping the generator ##
@@ -137,7 +132,7 @@ function randomStart(length) {
 function removeItem(array1, item) {
    array2 = []
    a = 0
-  for ( i = 0 i < Taille(array1) i++) {
+  for ( i = 0 i < len(array1) i++) {
     if (array1[i] != item) {
       array2[a] = array1[i]
       a++
@@ -170,7 +165,7 @@ function surroundings(t, length, n) {
    D = [1, 1, 1, 1, 1, 1, 1, 1]
 
   # Checking the immediate surroundings :
-  for ( i = 0 i < Taille(A) i++) {
+  for ( i = 0 i < len(A) i++) {
     if (t[A[i]] != undefined) {
       if (t[A[i]] != 0) {
         B[i] = 0
@@ -181,7 +176,7 @@ function surroundings(t, length, n) {
   }
 
   # Checking the other surroundings :
-  for (i = 0 i < Taille(C) i++) {
+  for (i = 0 i < len(C) i++) {
     if (t[C[i]] != undefined) {
       if (t[C[i]] != 0) {
         D[i] = 0
