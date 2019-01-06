@@ -60,7 +60,7 @@ def mazeGenerator(size, level):
                         # We randomly choose a cell from ways
                         a = ways[randomInt(0, len(ways) - 1)]
                         tab[a] = 1
-                        print(a)
+                        #print(a)
 
                     if len(ways) > 0:
                         break
@@ -229,13 +229,23 @@ def gaussianRand():
 ### Other functions ###
 #######################
 
-# def printMaze(array):
-#     """Used to print the maze in a square
-#     so it is easily readable"""
-#
+def printMaze(array):
+    """Used to print the maze in a square
+    so it is easily readable"""
+    other = []
+    for i in range(len(array)):
+        other.append('[' + str(array[i]) + ']')
+    l = math.floor(math.sqrt(len(array)))
+    for i in range(l):
+        line = ''
+        for j in range(l):
+            line += str(other[i*l + j])
+        print(line)
+
+# Algorithm
 
 maze = mazeGenerator(10,1)
-
-print(maze)
+print(len(maze))
+printMaze(maze)
 
 os.system("pause")
