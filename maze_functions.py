@@ -58,9 +58,13 @@ def checkIfExists(tabl, condition, pos, bool):
             bool = false
     return bool
 
-def surroundings(t, length, n):
-    # We check all the surroundings of the given cell, and we return them in an array:
-    # 0 if we can't go there, and 1 if we can.
+def surroundings(t, n):
+    
+    """We check all the surroundings of the given cell, and we return them in an array:
+    0 if we can't go there, and 1 if we can."""
+    
+    length = sqrt(len(t))
+
     ######## STEP 1 ########
     # First, we check the immediate surroundings (A (condititon) to B (zeros and ones))
     # Then, the others (B to D)

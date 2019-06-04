@@ -1,4 +1,4 @@
-import os
+#import os
 from maze_functions import *
 
 #######################################################################
@@ -28,10 +28,10 @@ def mazeGenerator(size, level):
     while "As long as len(ways) > 0":
         # We check which ways are possible by eliminating impossible ways
         ways = surroundings(tab, size, a)
-
+        print(ways)
         # - If we only have one item or more in "ways", we choose one randomly
-        #           - If "ways" is empty, we have to stop there, and put that as the final cell
-        #           of our incredible path
+        # - If "ways" is empty, we have to stop there, and put that as the final cell
+        #   of our incredible path
 
         if len(ways) > 0:
             # We randomly choose a cell from ways
@@ -39,10 +39,10 @@ def mazeGenerator(size, level):
             tab[a] = 1
             #print(a)
 
-        # At the end, path contains the path to go out
-        path.append(a)
+            # At the end, path contains the path to go out
+            path.append(a)
 
-        if len(ways) > 0:
+        else:
             break
 
     tab[a] = 3
@@ -93,4 +93,4 @@ maze = mazeGenerator(10,1)
 print(len(maze))
 printMaze(maze)
 
-os.system("pause")
+#os.system("pause")
