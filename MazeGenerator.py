@@ -27,7 +27,7 @@ def mazeGenerator(size, level):
 
     while "As long as len(ways) > 0":
         # We check which ways are possible by eliminating impossible ways
-        ways = surroundings(tab, size, a)
+        ways = surroundings(tab, a)
         print(ways)
         # - If we only have one item or more in "ways", we choose one randomly
         # - If "ways" is empty, we have to stop there, and put that as the final cell
@@ -52,7 +52,7 @@ def mazeGenerator(size, level):
             if randomInt(0, 1) == 0:
                 while "len(ways) > 0":
                     # We recreate some other paths without exits.
-                    ways = surroundings(tab, size, path[i])
+                    ways = surroundings(tab, path[i])
 
                     if len(ways) > 0:
                         # We randomly choose a cell from ways
@@ -60,15 +60,16 @@ def mazeGenerator(size, level):
                         tab[a] = 1
                         #print(a)
 
-                    if len(ways) > 0:
+                    else:
                         break
 
     elif level == 2:
         # We completely fill the grid with false ways
         for i in range(len(path)):
+            a = path[i]
             while "len(ways) > 0":
                 # We recreate some other paths without exits.
-                ways = surroundings(tab, size, path[i])
+                ways = surroundings(tab, a)
                 #print('Ways = ' + ways)
                 if len(ways) > 0:
                     # We randomly choose a cell from ways
@@ -76,20 +77,21 @@ def mazeGenerator(size, level):
                     tab[a] = 1
                     #print(a)
 
-                if len(ways) > 0:
+                else:
                     break
 
 
     print('Path = ', path)
     # Now we add the item on the maze :
     # First the item 1 : the candle
-    place = floor(gaussianRandom(len(path) * 0.25, len(path) * (1 - 0.25)))
-    tab[path[place]] = 4
+    # place = floor(gaussianRandom(len(path) * 0.25, len(path) * (1 - 0.25)))
+    # tab[path[place]] = 4
+    
     return tab
 
 # Algorithm
 
-maze = mazeGenerator(10,1)
+maze = mazeGenerator(5,2)
 print(len(maze))
 printMaze(maze)
 

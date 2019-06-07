@@ -6,6 +6,11 @@ from random import random
 #######################################
 
 def randomInt(a, b):
+    """
+    Gives a random int in a given range.
+    Both extrems are included.
+    Works well!
+    """
     c = 0
     if a > 0:
         c = floor(random() * b) + a
@@ -15,6 +20,10 @@ def randomInt(a, b):
     return c
 
 def randomStart(length):
+    """
+    Gives a number located on the side of the square.
+    Works well!
+    """
     # indicates the line chosen or the column depending on lc
     line = randomInt(1, length - 2)
     # lc indicates the side
@@ -38,24 +47,26 @@ def randomStart(length):
     return indice
 
 def removeItem(array1, item):
-    array2 = []
+    """
+    Removes every item occurence in an array.
+    Works well!
+    """
+    
+    while 'item is in array1':
+        try:
+            array1.remove(item)
+        except ValueError:
+            break
+    
+    return array1
 
-    for i in range(len(array1)):
-        array2.append(array1[i])
-
-    for i in range(len(array1)):
-        if (array1[i] != item):
-            array2.append(array1[i])
-
-    #print(array2)
-    return array2
-
+#CAREFUL UNUSED FUNCTION
 def checkIfExists(tabl, condition, pos, bool):
     # condition la conditions d'existence  pos = position de la case a checker
     # We check the surroundings of the cell around n
     if condition: # We check that it exists
         if tabl[pos] != 0:
-            bool = false
+            bool = False
     return bool
 
 def surroundings(t, n):
@@ -63,11 +74,11 @@ def surroundings(t, n):
     """We check all the surroundings of the given cell, and we return them in an array:
     0 if we can't go there, and 1 if we can."""
     
-    length = sqrt(len(t))
+    length = int(sqrt(len(t)))
 
     ######## STEP 1 ########
     # First, we check the immediate surroundings (A (condititon) to B (zeros and ones))
-    # Then, the others (B to D)
+    # Then, the others (C to D)
     A = [n - length, n + 1, n + length, n - 1]
     B = [1, 1, 1, 1]
     C = [n - length - 1, n - 2 * length, n - length + 1, n + 2, n + length + 1, n + 2 * length, n + length - 1, n - 2]
@@ -76,7 +87,7 @@ def surroundings(t, n):
     # Checking the immediate surroundings :
     for i in range(len(A)):
         try:
-            if t[A[i]] != 0:
+            if t[A[i]] != 0 or A[i] < 0:
                 B[i] = 0
         except IndexError:
             B[i] = 0
@@ -84,11 +95,17 @@ def surroundings(t, n):
     # Checking the other surroundings :
     for i in range(len(C)):
         try:
-            if t[C[i]] != 0:
+            if t[C[i]] != 0 and C[i] >= 0:
                 D[i] = 0
+
         except IndexError:
             D[i] = 1
-
+    
+    
+    
+    print(B)
+    print(D)
+    
     # Then we delete the cases where the cells aren't actually next to the main one.
     column = n % length
 
@@ -96,11 +113,18 @@ def surroundings(t, n):
         D[7] = 1
     elif column == 0:
         B[3] = 0
+        D[0] = 1
+        D[6] = 1
     elif column == length - 2:
         D[3] = 1
     elif column == length - 1:
         B[1] = 0
-
+        D[4] = 1
+        D[2] = 1
+    
+    print(B)
+    print(D)
+    
     ######## STEP 2 ########
     # We construct an array "possible" in which we sort out which cell we can go to
     # according to what we have done before
